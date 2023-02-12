@@ -13,7 +13,9 @@ import java.io.IOException
 import java.lang.reflect.Type
 
 class JSONAdapter(
-    moshi: Moshi, keyType: Type, valueType: Type
+    moshi: Moshi,
+    keyType: Type,
+    valueType: Type
 ) : JsonAdapter<JSONObject?>() {
 
     private val keyAdapter: JsonAdapter<String> = moshi.adapter(keyType)

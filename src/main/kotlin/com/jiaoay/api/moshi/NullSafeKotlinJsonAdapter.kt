@@ -203,7 +203,7 @@ class NullSafeKotlinJsonAdapterFactory(
     private val useBuildInProviders: Boolean = true
 ) : JsonAdapter.Factory {
     override fun create(type: Type, annotations: MutableSet<out Annotation>, moshi: Moshi):
-            JsonAdapter<*>? {
+        JsonAdapter<*>? {
         if (annotations.isNotEmpty()) return null
 
         val rawType = type.rawType

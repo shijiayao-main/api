@@ -11,7 +11,9 @@ import java.io.IOException
 import java.lang.reflect.Type
 
 class HashMapJsonAdapter<K, V>(
-    moshi: Moshi, keyType: Type, valueType: Type
+    moshi: Moshi,
+    keyType: Type,
+    valueType: Type
 ) : JsonAdapter<HashMap<K?, V?>?>() {
 
     private val keyAdapter: JsonAdapter<K> = moshi.adapter(keyType)
@@ -68,13 +70,13 @@ class HashMapJsonAdapter<K, V>(
             if (replaced != null) {
                 throw JsonDataException(
                     "HashMap key '" +
-                            name +
-                            "' has multiple values at path " +
-                            reader.path +
-                            ": " +
-                            replaced +
-                            " and " +
-                            value
+                        name +
+                        "' has multiple values at path " +
+                        reader.path +
+                        ": " +
+                        replaced +
+                        " and " +
+                        value
                 )
             }
         }

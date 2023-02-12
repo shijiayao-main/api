@@ -59,7 +59,6 @@ object ApiEngineManager {
         dispatcher: Dispatcher? = defaultDispatcher,
         builderInit: OkHttpClient.Builder.() -> Unit = {}
     ): Retrofit {
-
         synchronized(retrofitMap) {
             val key = getKey(tag = tag, host = host)
             retrofitMap.get(key = key)?.let {
@@ -148,5 +147,4 @@ object ApiEngineManager {
 
         return builder
     }
-
 }

@@ -12,7 +12,9 @@ import java.lang.reflect.Type
 import java.util.concurrent.ConcurrentHashMap
 
 class ConcurrentHashMapJsonAdapter<K, V>(
-    moshi: Moshi, keyType: Type, valueType: Type
+    moshi: Moshi,
+    keyType: Type,
+    valueType: Type
 ) : JsonAdapter<ConcurrentHashMap<K?, V?>?>() {
 
     private val keyAdapter: JsonAdapter<K> = moshi.adapter(keyType)
@@ -74,13 +76,13 @@ class ConcurrentHashMapJsonAdapter<K, V>(
             if (replaced != null) {
                 throw JsonDataException(
                     "ConcurrentHashMap key '" +
-                            name +
-                            "' has multiple values at path " +
-                            reader.path +
-                            ": " +
-                            replaced +
-                            " and " +
-                            value
+                        name +
+                        "' has multiple values at path " +
+                        reader.path +
+                        ": " +
+                        replaced +
+                        " and " +
+                        value
                 )
             }
         }
