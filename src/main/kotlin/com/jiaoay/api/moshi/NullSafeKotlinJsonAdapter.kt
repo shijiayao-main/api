@@ -44,7 +44,7 @@ internal class NullSafeKotlinJsonAdapter<T>(
     private val allBindings: List<Binding<T, Any?>?>,
     private val nonTransientBindings: List<Binding<T, Any?>>,
     private val options: JsonReader.Options,
-    private val defaultValueProviders: List<DefaultValueProvider>
+    private val defaultValueProviders: List<DefaultValueProvider>,
 ) : JsonAdapter<T>() {
 
     override fun fromJson(reader: JsonReader): T {
@@ -65,7 +65,7 @@ internal class NullSafeKotlinJsonAdapter<T>(
             val propertyIndex = binding.propertyIndex
             if (values[propertyIndex] !== absentValue) {
                 throw JsonDataException(
-                    "Multiple values for '${binding.property.name}' at ${reader.path}"
+                    "Multiple values for '${binding.property.name}' at ${reader.path}",
                 )
             }
 
@@ -77,7 +77,7 @@ internal class NullSafeKotlinJsonAdapter<T>(
                     throw Util.unexpectedNull(
                         binding.property.name,
                         binding.jsonName,
-                        reader
+                        reader,
                     )
                 }
             }
@@ -103,7 +103,7 @@ internal class NullSafeKotlinJsonAdapter<T>(
                             throw Util.missingProperty(
                                 constructor.parameters[i].name,
                                 allBindings[i]?.jsonName,
-                                reader
+                                reader,
                             )
                         }
                     }
@@ -160,7 +160,7 @@ internal class NullSafeKotlinJsonAdapter<T>(
         val adapter: JsonAdapter<P>,
         val property: KProperty1<K, P>,
         val parameter: KParameter?,
-        val propertyIndex: Int
+        val propertyIndex: Int,
     ) {
         fun get(value: K) = property.get(value)
 
@@ -174,7 +174,7 @@ internal class NullSafeKotlinJsonAdapter<T>(
     /** A simple [Map] that uses parameter indexes instead of sorting or hashing. */
     class IndexedParameterMap(
         private val parameterKeys: List<KParameter>,
-        private val parameterValues: Array<Any?>
+        private val parameterValues: Array<Any?>,
     ) : AbstractMutableMap<KParameter, Any?>() {
 
         override fun put(key: KParameter, value: Any?): Any? = null
@@ -200,7 +200,7 @@ internal class NullSafeKotlinJsonAdapter<T>(
 
 class NullSafeKotlinJsonAdapterFactory(
     private val providers: List<DefaultValueProvider> = listOf(),
-    private val useBuildInProviders: Boolean = true
+    private val useBuildInProviders: Boolean = true,
 ) : JsonAdapter.Factory {
     override fun create(type: Type, annotations: MutableSet<out Annotation>, moshi: Moshi):
         JsonAdapter<*>? {
@@ -278,7 +278,7 @@ class NullSafeKotlinJsonAdapterFactory(
             val adapter = moshi.adapter<Any>(
                 resolvedPropertyType,
                 Util.jsonAnnotations(allAnnotations.toTypedArray()),
-                property.name
+                property.name,
             )
 
             @Suppress("UNCHECKED_CAST")
@@ -288,7 +288,7 @@ class NullSafeKotlinJsonAdapterFactory(
                 adapter,
                 property as KProperty1<Any, Any?>,
                 parameter,
-                parameter?.index ?: -1
+                parameter?.index ?: -1,
             )
         }
 
@@ -321,7 +321,7 @@ class NullSafeKotlinJsonAdapterFactory(
             bindings,
             nonTransientBindings,
             options,
-            mergedProviders
+            mergedProviders,
         ).nullSafe()
     }
 }

@@ -15,7 +15,7 @@ import java.lang.reflect.Type
 class JSONAdapter(
     moshi: Moshi,
     keyType: Type,
-    valueType: Type
+    valueType: Type,
 ) : JsonAdapter<JSONObject?>() {
 
     private val keyAdapter: JsonAdapter<String> = moshi.adapter(keyType)
@@ -33,7 +33,7 @@ class JSONAdapter(
             val keyAndValue = if (type === java.util.Properties::class.java) {
                 arrayOf<Type>(
                     String::class.java,
-                    String::class.java
+                    String::class.java,
                 )
             } else {
                 arrayOf<Type>(Any::class.java, Any::class.java)
@@ -41,7 +41,7 @@ class JSONAdapter(
             JSONAdapter(
                 moshi,
                 keyAndValue[0],
-                keyAndValue[1]
+                keyAndValue[1],
             ).nullSafe()
         }
     }
@@ -79,7 +79,7 @@ class JSONAdapter(
             val name = keyAdapter.fromJson(reader)
             if (name == null) {
                 throw JsonDataException(
-                    "JSONObject key:$name is null."
+                    "JSONObject key:$name is null.",
                 )
             }
             val value = valueAdapter.fromJson(reader)

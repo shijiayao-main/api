@@ -13,7 +13,7 @@ import java.lang.reflect.Type
 class LinkedHashMapJsonAdapter<K, V>(
     moshi: Moshi,
     keyType: Type,
-    valueType: Type
+    valueType: Type,
 ) : JsonAdapter<LinkedHashMap<K?, V?>?>() {
 
     private val keyAdapter: JsonAdapter<K> = moshi.adapter(keyType)
@@ -31,7 +31,7 @@ class LinkedHashMapJsonAdapter<K, V>(
             val keyAndValue = if (type === java.util.Properties::class.java) {
                 arrayOf<Type>(
                     String::class.java,
-                    String::class.java
+                    String::class.java,
                 )
             } else {
                 arrayOf<Type>(Any::class.java, Any::class.java)
@@ -39,7 +39,7 @@ class LinkedHashMapJsonAdapter<K, V>(
             LinkedHashMapJsonAdapter<Any?, Any>(
                 moshi,
                 keyAndValue[0],
-                keyAndValue[1]
+                keyAndValue[1],
             ).nullSafe()
         }
     }
@@ -76,7 +76,7 @@ class LinkedHashMapJsonAdapter<K, V>(
                         ": " +
                         replaced +
                         " and " +
-                        value
+                        value,
                 )
             }
         }

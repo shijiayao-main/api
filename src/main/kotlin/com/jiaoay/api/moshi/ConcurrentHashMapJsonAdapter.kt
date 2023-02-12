@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap
 class ConcurrentHashMapJsonAdapter<K, V>(
     moshi: Moshi,
     keyType: Type,
-    valueType: Type
+    valueType: Type,
 ) : JsonAdapter<ConcurrentHashMap<K?, V?>?>() {
 
     private val keyAdapter: JsonAdapter<K> = moshi.adapter(keyType)
@@ -32,7 +32,7 @@ class ConcurrentHashMapJsonAdapter<K, V>(
             val keyAndValue = if (type === java.util.Properties::class.java) {
                 arrayOf<Type>(
                     String::class.java,
-                    String::class.java
+                    String::class.java,
                 )
             } else {
                 arrayOf<Type>(Any::class.java, Any::class.java)
@@ -40,7 +40,7 @@ class ConcurrentHashMapJsonAdapter<K, V>(
             ConcurrentHashMapJsonAdapter<Any?, Any>(
                 moshi,
                 keyAndValue[0],
-                keyAndValue[1]
+                keyAndValue[1],
             ).nullSafe()
         }
     }
@@ -69,7 +69,7 @@ class ConcurrentHashMapJsonAdapter<K, V>(
             val value = valueAdapter.fromJson(reader)
             if (name == null || value == null) {
                 throw JsonDataException(
-                    "ConcurrentHashMap Neither the key:$name nor the value:$value can be null."
+                    "ConcurrentHashMap Neither the key:$name nor the value:$value can be null.",
                 )
             }
             val replaced = result.put(name, value)
@@ -82,7 +82,7 @@ class ConcurrentHashMapJsonAdapter<K, V>(
                         ": " +
                         replaced +
                         " and " +
-                        value
+                        value,
                 )
             }
         }

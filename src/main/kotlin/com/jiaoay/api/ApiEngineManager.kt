@@ -39,7 +39,7 @@ object ApiEngineManager {
             60,
             TimeUnit.SECONDS,
             SynchronousQueue(),
-            threadFactory
+            threadFactory,
         )
         val dispatcher = Dispatcher(executorService)
         dispatcher.maxRequestsPerHost = 15
@@ -57,7 +57,7 @@ object ApiEngineManager {
         host: String?,
         tag: String,
         dispatcher: Dispatcher? = defaultDispatcher,
-        builderInit: OkHttpClient.Builder.() -> Unit = {}
+        builderInit: OkHttpClient.Builder.() -> Unit = {},
     ): Retrofit {
         synchronized(retrofitMap) {
             val key = getKey(tag = tag, host = host)
@@ -70,7 +70,7 @@ object ApiEngineManager {
             val retrofit = buildRetrofit(
                 host = host,
                 dispatcher = dispatcher,
-                builderInit = builderInit
+                builderInit = builderInit,
             )
             retrofitMap[key] = retrofit
             return retrofit
@@ -95,11 +95,11 @@ object ApiEngineManager {
     private fun buildRetrofit(
         host: String?,
         dispatcher: Dispatcher?,
-        builderInit: OkHttpClient.Builder.() -> Unit
+        builderInit: OkHttpClient.Builder.() -> Unit,
     ): Retrofit {
         val httpClient = buildHttpClient(
             builderInit = builderInit,
-            dispatcher = dispatcher
+            dispatcher = dispatcher,
         ).build()
 
         val moshi: Moshi = Moshi.Builder()
@@ -124,7 +124,7 @@ object ApiEngineManager {
 
     private fun buildHttpClient(
         builderInit: OkHttpClient.Builder.() -> Unit,
-        dispatcher: Dispatcher?
+        dispatcher: Dispatcher?,
     ): OkHttpClient.Builder {
         val builder = OkHttpClient.Builder()
         if (dispatcher != null) {
